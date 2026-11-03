@@ -36,8 +36,9 @@ Browse the [IC catalogue](collection/), the
 - **JSON Schema / jsonschema** for validating IC definitions and package data.
 - **SVG** for scalable horizontal and vertical diagrams.
 
-Package families include DIP and [SOT-23](components/renderer/packages/sot23/README.md).
-SOT-23 supports 3-, 5-, and 6-pin variants.
+Package families include DIP, [SOT-23](components/renderer/packages/sot23/README.md),
+and [SOIC](components/renderer/packages/soic/README.md). SOT-23 supports 3-, 5-,
+and 6-pin variants; narrow-body SOIC supports 8, 14, and 16 pins.
 
 ## Contributing
 
