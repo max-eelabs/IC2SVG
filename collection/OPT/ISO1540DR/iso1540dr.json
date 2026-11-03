@@ -1,0 +1,120 @@
+{
+  "$schema": "../../../components/input/schema.json",
+  "name": "ISO1540DR",
+  "package": {
+    "family": "SOIC",
+    "pin_count": 8
+  },
+  "orientation": "landscape",
+  "content_scale": 0.6,
+  "comments": [
+    "ISO1540DR: bidirectional I2C isolator; SOIC-8, top view.",
+    "Side 1 uses VCC1/GND1; side 2 uses VCC2/GND2. Grounds are separate domains.",
+    "SDA and SCL are bidirectional on both sides. Isolation is capacitive, not optical."
+  ],
+  "categories": {
+    "power": {
+      "name": "Power"
+    },
+    "i2c1": {
+      "name": "I2C side 1",
+      "color": "#26C6DA"
+    },
+    "i2c2": {
+      "name": "I2C side 2",
+      "color": "#80CBC4"
+    }
+  },
+  "pins": [
+    {
+      "number": 1,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "VCC1"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "i2c1",
+          "name": "SDA1"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "i2c1",
+          "name": "SCL1"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "GND1",
+          "color": "#202020"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "GND2",
+          "color": "#202020"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "i2c2",
+          "name": "SCL2"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "i2c2",
+          "name": "SDA2"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "VCC2"
+        }
+      ]
+    }
+  ]
+}

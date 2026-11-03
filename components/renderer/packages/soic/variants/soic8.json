@@ -1,0 +1,29 @@
+{
+  "pin_count": 8,
+  "geometry_mm": {
+    "width": 3.9,
+    "length": 4.9,
+    "span": 6.0,
+    "lead_width": 0.41,
+    "pitch": 1.27
+  },
+  "reference": {
+    "body_width": {
+      "inches": "0.150-0.157",
+      "millimeters": "3.81-3.98"
+    },
+    "body_length": {
+      "inches": "0.189-0.197",
+      "millimeters": "4.81-5.00"
+    },
+    "lead_span": {
+      "inches": "0.228-0.244",
+      "millimeters": "5.80-6.19"
+    },
+    "pin_pitch": {
+      "inches": "0.050",
+      "millimeters": "1.27"
+    }
+  },
+  "source": "https://www.ti.com/lit/ml/msoi002k/msoi002k.pdf#page=1"
+}

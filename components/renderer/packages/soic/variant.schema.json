@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Narrow SOIC variant specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pin_count",
+    "geometry_mm",
+    "reference",
+    "source"
+  ],
+  "properties": {
+    "pin_count": {
+      "type": "integer",
+      "enum": [
+        8,
+        14,
+        16
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "geometry_mm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "length",
+        "span",
+        "lead_width",
+        "pitch"
+      ],
+      "properties": {
+        "width": {
+          "$ref": "#/$defs/positive"
+        },
+        "length": {
+          "$ref": "#/$defs/positive"
+        },
+        "span": {
+          "$ref": "#/$defs/positive"
+        },
+        "pitch": {
+          "$ref": "#/$defs/positive"
+        },
+        "lead_width": {
+          "$ref": "#/$defs/positive"
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "body_width",
+        "body_length",
+        "lead_span",
+        "pin_pitch"
+      ],
+      "properties": {
+        "body_width": {
+          "$ref": "#/$defs/measurement"
+        },
+        "body_length": {
+          "$ref": "#/$defs/measurement"
+        },
+        "lead_span": {
+          "$ref": "#/$defs/measurement"
+        },
+        "pin_pitch": {
+          "$ref": "#/$defs/measurement"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "positive": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?=.*\\S)[^\\r\\n\\t]+$"
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inches",
+        "millimeters"
+      ],
+      "properties": {
+        "inches": {
+          "$ref": "#/$defs/text"
+        },
+        "millimeters": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    }
+  }
+}
