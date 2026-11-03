@@ -22,6 +22,7 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+from xml.etree import ElementTree as ET
 
 from jsonschema import Draft202012Validator
 
@@ -65,6 +66,31 @@ class JsonInputTests(unittest.TestCase):
         self.assertEqual(parsed, parse_input(self.data))
         self.assertEqual(parsed.render().to_string(), parse_input(self.data).render()
                          .to_string())
+
+    def test_legend_columns_are_optional_and_validate_explicit_values(self) -> None:
+        original = deepcopy(self.data)
+        automatic = parse_input(self.data)
+        self.assertIsNone(automatic.legend_columns)
+        self.data["legend_columns"] = None
+        self.assertEqual(automatic.render().to_string(),
+                         parse_input(self.data).render().to_string())
+        self.assertEqual(original, {key: value for key, value in self.data.items()
+                                    if key != "legend_columns"})
+        self.data["legend_columns"] = 2
+        request = parse_input(self.data)
+        self.assertEqual(request.legend_columns, 2)
+        root = ET.fromstring(request.render().to_string())
+        namespace = "{http://www.w3.org/2000/svg}"
+        legend = root.find(f"{namespace}g[@id='legend']")
+        columns = {box.get("x") for box in legend.findall(f"{namespace}rect")}
+        self.assertEqual(len(columns), 2)
+        for invalid in (True, 2.0, "2", 0, -1, 17):
+            with self.subTest(columns=invalid), self.assertRaises(ValueError):
+                parse_input({**self.data, "legend_columns": invalid})
+        schema = json.loads(files("components.input").joinpath("schema.json")
+                            .read_text(encoding="utf-8"))
+        self.assertIsNone(schema["properties"]["legend_columns"]["default"])
+        self.assertNotIn("legend_columns", schema["required"])
 
     def test_invalid_structure(self) -> None:
         cases = [

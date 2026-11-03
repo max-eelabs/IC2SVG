@@ -25,7 +25,7 @@ make accurate pinout diagrams easy to create, maintain, and share.
 Licensed under [Apache 2.0](LICENSE). [NOTICE](NOTICE) also covers all generated
 SVG images in the repository.
 
-Browse the [IC catalogue](collection/), the
+Browse the [IC catalogue and render presets](collection/README.md), the
 [ATtiny85 pinout](collection/MCU/ATTiny85/README.md), or the
 [PIC16F1454 pinout](collection/MCU/PIC16F1454/README.md).
 
@@ -36,9 +36,30 @@ Browse the [IC catalogue](collection/), the
 - **JSON Schema / jsonschema** for validating IC definitions and package data.
 - **SVG** for scalable horizontal and vertical diagrams.
 
-Package families include DIP, [SOT-23](components/renderer/packages/sot23/README.md),
-and [SOIC](components/renderer/packages/soic/README.md). SOT-23 supports 3-, 5-,
-and 6-pin variants; narrow-body SOIC supports 8, 14, and 16 pins.
+| Package family | Supported physical pin counts |
+| --- | --- |
+| [DIP](components/renderer/packages/dip/) | 4, 6, 8, 14, 16, 18, 20, 24, 28 |
+| [SOT-23](components/renderer/packages/sot23/README.md) | 3, 5, 6 |
+| [Narrow SOIC](components/renderer/packages/soic/README.md) | 8, 14, 16 |
+
+## Render a Diagram
+
+Install the project in your Python environment, then render an existing entry:
+
+```powershell
+python -m pip install .
+python -m components.input collection/USB/AP2151DWG-7/ap2151dwg-7.json ap2151dwg-7.svg --orientation landscape
+```
+
+Each collection entry also has a `render.cmd` that regenerates both orientations
+with its saved scale and legend settings. SVG output uses vector font outlines,
+a fixed viewBox, and explicit UTF-8 encoding with LF line endings.
+
+The optional JSON field `legend_columns` defaults to `null` for automatic
+layout. Use `--legend-columns 1` or another count to override it for one render.
+Package, Legend, and Comments text stays at a fixed sheet size when the chip's
+`content_scale` changes. See the [layout instructions](CONTRIBUTING.md#layout-and-legend-settings)
+for defaults and examples.
 
 ## Contributing
 

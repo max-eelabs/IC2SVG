@@ -7,6 +7,7 @@
   },
   "orientation": "landscape",
   "content_scale": 0.6,
+  "legend_columns": null,
   "comments": [
     "AP2151DWG-7: USB power switch with output discharge; SOT25, top view.",
     "EN is active high. FLG is an active-low, open-drain fault output; use a pull-up.",

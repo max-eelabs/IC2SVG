@@ -23,6 +23,22 @@ LABEL_FONT_SIZE = 28 * DEFINITION_SCALE
 PIN_NUMBER_GAP = 28.0
 
 # Overlay headings use sheet units, independent of each block's drawing scale.
-HEADING_FONT_SIZE = 20
+HEADING_FONT_SIZE = 30
 
 HEADING_CONTENT_GAP = 12.0
+
+# Overlay body text and row spacing are independent of the IC content scale.
+OVERLAY_FONT_SIZE = 22
+
+OVERLAY_ROW_HEIGHT = 32.0
+
+HEADING_POSITION_Y = 12.0
+
+# Increase both legend samples and their outlines without changing pin labels.
+LEGEND_SCALE = 0.5
+
+# Legend samples are slightly smaller than the surrounding descriptions.
+LEGEND_DEFINITION_SCALE = 0.9
+
+# Legend descriptions stay on one line; longer text receives an ellipsis.
+LEGEND_DESCRIPTION_MAX_CHARS = 24

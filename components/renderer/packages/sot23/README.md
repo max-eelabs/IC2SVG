@@ -82,3 +82,10 @@ raise an error.
 
 The six reproducible SVGs in [samples](samples/) use the fixed landscape and
 portrait viewBoxes and the name `EXAMPLE`.
+
+These generic package samples contain the housing and physical pin numbers.
+Complete collection pinouts add the Package, Legend, and Comments blocks through
+the JSON compositor. Its optional `legend_columns` field and `--legend-columns`
+CLI override control the legend independently of pin-function columns. See the
+[layout guide](../../../../CONTRIBUTING.md#layout-and-legend-settings) for defaults,
+single-line description limits, and sheet typography.

@@ -7,6 +7,7 @@
   },
   "orientation": "landscape",
   "content_scale": 0.6,
+  "legend_columns": null,
   "comments": [
     "ISO1540DR: bidirectional I2C isolator; SOIC-8, top view.",
     "Side 1 uses VCC1/GND1; side 2 uses VCC2/GND2. Grounds are separate domains.",

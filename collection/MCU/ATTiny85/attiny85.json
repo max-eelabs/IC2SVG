@@ -4,6 +4,7 @@
   "package": {"family": "DIP", "pin_count": 8},
   "orientation": "landscape",
   "content_scale": 0.35,
+  "legend_columns": null,
   "comments": [
     "Native pin functions; alternatives share pins. Overbar = inverted/active low.",
     "PB5*: RESET by default; GPIO/PCINT5 require RSTDISBL configuration.",

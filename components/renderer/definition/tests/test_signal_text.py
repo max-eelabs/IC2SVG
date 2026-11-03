@@ -17,6 +17,7 @@
 """Check active-low notation and the resulting visible SVG overbars."""
 
 import unittest
+from unittest.mock import patch
 from xml.etree import ElementTree as ET
 
 from PIL import ImageFont
@@ -48,6 +49,23 @@ class SignalTextTests(unittest.TestCase):
         for invalid in ("~", "A/~", "~ A", "~~RESET"):
             with self.assertRaises(ValueError):
                 parse_signal_text(invalid)
+
+    def test_uniform_definition_scaling_preserves_decoration(self) -> None:
+        label = PinLabel("~RESET")
+        baseline = RoundedDefinitionRenderer().measure(label)
+        scaled = RoundedDefinitionRenderer(scale=0.9)
+        size = scaled.measure(label)
+        self.assertAlmostEqual(size.width, baseline.width * 0.9)
+        self.assertAlmostEqual(size.height, baseline.height * 0.9)
+        document = SvgDocument((1920, 1080))
+        with patch.object(document, "text", wraps=document.text) as draw:
+            scaled.render(document, label, Rectangle(0, 0, size.width, size.height))
+        self.assertAlmostEqual(draw.call_args.kwargs["font"].size, 28 * 1.716 * 0.9)
+        root = ET.fromstring(document.to_string())
+        self.assertEqual(len(root.findall(f"{_SVG}line")), 1)
+        for invalid in (0, -1, float("nan"), float("inf")):
+            with self.subTest(scale=invalid), self.assertRaises(ValueError):
+                RoundedDefinitionRenderer(scale=invalid)
 
     def test_measurement_omits_tilde(self) -> None:
         renderer = RoundedDefinitionRenderer()

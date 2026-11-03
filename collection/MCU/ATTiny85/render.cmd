@@ -25,7 +25,7 @@ if exist ".venv\Scripts\python.exe" set "IC_PYTHON=.venv\Scripts\python.exe"
 "%IC_PYTHON%" -m components.input "%~dp0attiny85.json" "%~dp0attiny85-horizontal.svg" --orientation landscape
 if errorlevel 1 goto failed
 
-"%IC_PYTHON%" -m components.input "%~dp0attiny85.json" "%~dp0attiny85-vertical.svg" --orientation portrait --content-scale 0.2
+"%IC_PYTHON%" -m components.input "%~dp0attiny85.json" "%~dp0attiny85-vertical.svg" --orientation portrait --legend-columns 1 --content-scale 0.2
 if errorlevel 1 goto failed
 
 popd

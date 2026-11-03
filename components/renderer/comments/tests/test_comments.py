@@ -24,6 +24,7 @@ from xml.etree import ElementTree as ET
 from PIL import ImageFont
 
 from components.input import load_input
+from components.renderer.core.typography import OVERLAY_FONT_SIZE
 from components.renderer import (
     BottomLeftCommentsRenderer, CommentsRenderer, Rectangle, SvgDocument,
 )
@@ -70,7 +71,7 @@ class CommentsTests(unittest.TestCase):
         comments = root.find(f"{_SVG}g[@id='comments']")
         lines = comments.findall(f"{_SVG}g")[1:]
         self.assertGreater(len(lines), 2)
-        font = ImageFont.load_default(size=16)
+        font = ImageFont.load_default(size=OVERLAY_FONT_SIZE)
         for line in lines:
             self.assertLessEqual(font.getlength(line.get("aria-label")), 1080 - 64)
         with self.assertRaisesRegex(ValueError, "cannot fit"):
