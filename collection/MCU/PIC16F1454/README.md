@@ -30,9 +30,9 @@ The drawing uses the repository's illustrative DIP-14 geometry.
 - A trailing `*` marks an alternate location selected with APFCON. Default/alternate
   pairs are T1G on RA4/RA3, PWM2 on RC3/RA5, SDO on RC2/RA4, SS on RC3/RA3,
   and CLKR on RA4/RC3. See the allocation-table notes and Section 12.2.
-- RA0, RA1, and RA3 are input-only in GPIO mode. Pins 12 and 13 have I/O badges
-  because D- and D+ are bidirectional USB signals; the badges describe the
-  physical pins across functions, rather than GPIO direction alone.
+- RA0, RA1, and RA3 are input-only in GPIO mode and have IN badges. These badges
+  describe GPIO direction; the USB D- and D+ functions on pins 12 and 13 remain
+  bidirectional.
 - RA3 shares active-low MCLR and programming voltage VPP. GPIO requires both
   MCLRE=0 and LVP=0; see Section 6.5. Prefixing a signal with `~` in JSON draws
   its active-low overbar, including SS.
