@@ -7,7 +7,7 @@
   "comments": [
     "PIC16F1454 PDIP-14; native functions share pins. Overbar = active low.",
     "* = alternate APFCON location; unstarred paired locations are defaults.",
-    "RA0/RA1/RA3 are input-only GPIO; RA0/RA1 also carry bidirectional USB.",
+    "IN badges on RA0/RA1/RA3 describe GPIO; USB D+/D- remain bidirectional.",
     "RA3 GPIO requires MCLRE=0 and LVP=0. ICSP on RA0/RA1 is legacy LVP only.",
     "VUSB3V3 is the USB regulator pin, not GPIO. No ADC, DAC, comparators or CWG."
   ],
@@ -84,13 +84,13 @@
     {"number": 11, "type": "power", "definitions": [
       {"column": 1, "category": "power", "name": "VUSB3V3"}
     ]},
-    {"number": 12, "type": "io", "definitions": [
+    {"number": 12, "type": "input", "definitions": [
       {"column": 1, "category": "io", "name": "RA1"},
       {"column": 2, "category": "interrupt", "name": "IOC"},
       {"column": 3, "category": "usb", "name": "D-"},
       {"column": 8, "category": "control", "name": "ICSPCLK (LVP)"}
     ]},
-    {"number": 13, "type": "io", "definitions": [
+    {"number": 13, "type": "input", "definitions": [
       {"column": 1, "category": "io", "name": "RA0"},
       {"column": 2, "category": "interrupt", "name": "IOC"},
       {"column": 3, "category": "usb", "name": "D+"},
