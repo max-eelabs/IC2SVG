@@ -1,0 +1,129 @@
+{
+  "$schema": "../../schema.json",
+  "name": "EXAMPLE",
+  "package": {
+    "family": "DIP",
+    "pin_count": 8
+  },
+  "orientation": "landscape",
+  "categories": {
+    "power": {
+      "name": "Power",
+      "color": "#E53935"
+    },
+    "io": {
+      "name": "I/O",
+      "color": "#FFF59D"
+    },
+    "i2c": {
+      "name": "I2C",
+      "color": "#26C6DA"
+    },
+    "spi": {
+      "name": "SPI",
+      "color": "#66BB6A"
+    }
+  },
+  "pins": [
+    {
+      "number": 1,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "VCC"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "io",
+          "name": "IO1"
+        },
+        {
+          "column": 2,
+          "category": "i2c",
+          "name": "SDA"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "io",
+          "name": "IO2"
+        },
+        {
+          "column": 2,
+          "category": "i2c",
+          "name": "SCL"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "GND",
+          "color": "#202020"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "type": "input",
+      "definitions": [
+        {
+          "column": 2,
+          "category": "spi",
+          "name": "MISO"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "type": "nc",
+      "definitions": []
+    },
+    {
+      "number": 7,
+      "type": "output",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "io",
+          "name": "IO3"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "VCC"
+        }
+      ]
+    }
+  ],
+  "comments": [
+    "Synthetic pinout for renderer validation.",
+    "Alternate functions share physical pins.",
+    "Empty function columns preserve their space.",
+    "Power labels may use different colors.",
+    "Every physical pin declares its electrical role."
+  ]
+}

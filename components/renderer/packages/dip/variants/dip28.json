@@ -1,0 +1,30 @@
+{
+  "pin_count": 28,
+  "geometry_mm": {
+    "width": 7.24,
+    "length": 34.67,
+    "span": 8.89,
+    "shoulder": 1.33,
+    "tip": 0.48,
+    "pitch": 2.54
+  },
+  "reference": {
+    "body_width": {
+      "inches": "0.285",
+      "millimeters": "7.24"
+    },
+    "body_length": {
+      "inches": "1.365",
+      "millimeters": "34.67"
+    },
+    "lead_span": {
+      "inches": "0.350",
+      "millimeters": "8.89"
+    },
+    "pin_pitch": {
+      "inches": "0.100",
+      "millimeters": "2.54"
+    }
+  },
+  "source": "https://ww1.microchip.com/downloads/en/PackagingSpec/00049w.pdf#page=43"
+}

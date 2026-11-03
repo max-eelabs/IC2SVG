@@ -1,0 +1,23 @@
+IC2SVG
+Copyright 2026 Maxim Pavlov <pavlov.web@gmail.com>
+
+This project is licensed under the Apache License, Version 2.0.
+See the accompanying LICENSE file for the full license text.
+
+This notice applies collectively to all project-owned source code,
+documentation, configuration, IC definitions, and generated SVG images
+included anywhere in this repository. It covers every generated SVG,
+including package samples and IC collection renders, regardless of filename
+or directory. No individual inventory of generated images is required.
+The project's original contributions to these materials are licensed under
+the Apache License, Version 2.0.
+
+SVG text outlines use the Aileron typeface by Sora Sagano (dot colon), as
+provided by Pillow. Aileron is published as "No Rights Reserved":
+https://dotcolon.net/fonts/aileron/
+
+Third-party dependencies, reference documents, and other third-party
+materials retain their own copyright and license terms. This notice does
+not relicense those materials.
+
+This NOTICE is informational and does not modify the Apache License.

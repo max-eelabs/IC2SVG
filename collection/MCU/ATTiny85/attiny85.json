@@ -1,0 +1,77 @@
+{
+  "$schema": "../../../components/input/schema.json",
+  "name": "ATtiny85",
+  "package": {"family": "DIP", "pin_count": 8},
+  "orientation": "landscape",
+  "content_scale": 0.35,
+  "comments": [
+    "Native pin functions; alternatives share pins. Overbar = inverted/active low.",
+    "PB5*: RESET by default; GPIO/PCINT5 require RSTDISBL configuration.",
+    "USI: DI/DO/USCK for 3-wire, SDA/SCL for 2-wire; firmware required.",
+    "MOSI/MISO/SCK are ISP aliases; USI-master MOSI uses DO, MISO uses DI.",
+    "No hardware DAC or UART. PWM filtering and software/USI UART are options."
+  ],
+  "categories": {
+    "power": {"name": "Power"},
+    "io": {"name": "GPIO", "color": "#FFF59D"},
+    "adc": {"name": "ADC", "color": "#66BB6A"},
+    "interrupt": {"name": "Interrupt", "color": "#CE93D8"},
+    "pwm": {"name": "PWM / Timer", "color": "#EF9A9A"},
+    "spi": {"name": "USI three-wire / ISP", "color": "#80CBC4"},
+    "i2c": {"name": "USI two-wire / I2C", "color": "#26C6DA"},
+    "analog": {"name": "Comparator / Reference", "color": "#A5D6A7"},
+    "clock": {"name": "Clock", "color": "#B0BEC5"},
+    "control": {"name": "Reset / debugWIRE", "color": "#FDD835"}
+  },
+  "pins": [
+    {"number": 1, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "PB5*"},
+      {"column": 2, "category": "adc", "name": "ADC0"},
+      {"column": 3, "category": "interrupt", "name": "PCINT5"},
+      {"column": 4, "category": "control", "name": "~RESET/dW"}
+    ]},
+    {"number": 2, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "PB3"},
+      {"column": 2, "category": "adc", "name": "ADC3"},
+      {"column": 3, "category": "interrupt", "name": "PCINT3"},
+      {"column": 4, "category": "pwm", "name": "~OC1B"},
+      {"column": 5, "category": "clock", "name": "XTAL1/CLKI"}
+    ]},
+    {"number": 3, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "PB4"},
+      {"column": 2, "category": "adc", "name": "ADC2"},
+      {"column": 3, "category": "interrupt", "name": "PCINT4"},
+      {"column": 4, "category": "pwm", "name": "OC1B"},
+      {"column": 5, "category": "clock", "name": "XTAL2/CLKO"}
+    ]},
+    {"number": 4, "type": "power", "definitions": [
+      {"column": 1, "category": "power", "name": "GND", "color": "#202020"}
+    ]},
+    {"number": 5, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "PB0"},
+      {"column": 3, "category": "interrupt", "name": "PCINT0"},
+      {"column": 4, "category": "pwm", "name": "OC0A/~OC1A"},
+      {"column": 5, "category": "spi", "name": "DI/MOSI"},
+      {"column": 6, "category": "i2c", "name": "SDA"},
+      {"column": 7, "category": "analog", "name": "AIN0/AREF"}
+    ]},
+    {"number": 6, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "PB1"},
+      {"column": 3, "category": "interrupt", "name": "PCINT1"},
+      {"column": 4, "category": "pwm", "name": "OC0B/OC1A"},
+      {"column": 5, "category": "spi", "name": "DO/MISO"},
+      {"column": 7, "category": "analog", "name": "AIN1"}
+    ]},
+    {"number": 7, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "PB2"},
+      {"column": 2, "category": "adc", "name": "ADC1"},
+      {"column": 3, "category": "interrupt", "name": "PCINT2/INT0"},
+      {"column": 4, "category": "pwm", "name": "T0"},
+      {"column": 5, "category": "spi", "name": "USCK/SCK"},
+      {"column": 6, "category": "i2c", "name": "SCL"}
+    ]},
+    {"number": 8, "type": "power", "definitions": [
+      {"column": 1, "category": "power", "name": "VCC"}
+    ]}
+  ]
+}

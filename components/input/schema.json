@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IC Pinout Illustrator input",
+  "description": "Every pin requires an electrical type badge, placed nearest the IC before function column 1. Function columns count outward; empty columns reserve space and category identity does not assign a column.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "package", "categories", "pins"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "name": {"$ref": "#/$defs/label"},
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "pin_count"],
+      "properties": {
+        "family": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_-]*$",
+          "description": "Family supplied by an installed package plugin; support is checked by the loader."
+        },
+        "pin_count": {
+          "type": "integer", "minimum": 1,
+          "description": "Supported physical pin count, validated by the selected package plugin."
+        }
+      }
+    },
+    "orientation": {"enum": ["landscape", "portrait"], "default": "landscape"},
+    "content_scale": {"type": "number", "exclusiveMinimum": 0, "maximum": 1, "default": 0.6},
+    "comments": {
+      "type": "array",
+      "description": "Ordered comments rendered in the bottom-left sheet block.",
+      "default": [],
+      "items": {"type": "string", "minLength": 1, "pattern": "\\S"}
+    },
+    "categories": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9_]*$"},
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {"$ref": "#/$defs/label"},
+          "color": {"$ref": "#/$defs/color"},
+          "text_color": {"$ref": "#/$defs/color"}
+        }
+      }
+    },
+    "pins": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["number", "type", "definitions"],
+        "properties": {
+          "number": {"type": "integer", "minimum": 1},
+          "type": {"$ref": "#/$defs/pin_type"},
+          "definitions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["column", "category", "name"],
+              "properties": {
+                "column": {"type": "integer", "minimum": 1, "maximum": 16},
+                "category": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+                "name": {"$ref": "#/$defs/label"},
+                "color": {"$ref": "#/$defs/color"},
+                "text_color": {"$ref": "#/$defs/color"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "pin_type": {
+      "type": "string",
+      "enum": ["input", "output", "io", "power", "nc"],
+      "description": "Required electrical role, independent of function categories and columns. Renders as IN, OUT, I/O, PWR, or NC with fixed neutral colors."
+    },
+    "label": {"type": "string", "minLength": 1, "pattern": "^(?=.*\\S)[^\\r\\n\\t]+$"},
+    "color": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}
+  }
+}

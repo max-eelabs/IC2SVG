@@ -1,0 +1,30 @@
+{
+  "pin_count": 4,
+  "geometry_mm": {
+    "width": 6.5,
+    "length": 4.6,
+    "span": 8.57,
+    "shoulder": 1.27,
+    "tip": 0.5,
+    "pitch": 2.54
+  },
+  "reference": {
+    "body_width": {
+      "inches": "0.256",
+      "millimeters": "6.50"
+    },
+    "body_length": {
+      "inches": "0.181",
+      "millimeters": "4.60"
+    },
+    "lead_span": {
+      "inches": "0.337",
+      "millimeters": "8.57"
+    },
+    "pin_pitch": {
+      "inches": "0.100",
+      "millimeters": "2.54"
+    }
+  },
+  "source": "https://www.diodes.com/assets/Package-Files/DIP-4.pdf"
+}
