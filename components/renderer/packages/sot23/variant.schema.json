@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SOT-23 variant specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pin_count",
+    "geometry_mm",
+    "reference",
+    "source",
+    "pin_positions"
+  ],
+  "properties": {
+    "pin_count": {
+      "type": "integer",
+      "enum": [
+        3,
+        5,
+        6
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "geometry_mm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "length",
+        "span",
+        "shoulder",
+        "pitch"
+      ],
+      "properties": {
+        "width": {
+          "$ref": "#/$defs/positive"
+        },
+        "length": {
+          "$ref": "#/$defs/positive"
+        },
+        "span": {
+          "$ref": "#/$defs/positive"
+        },
+        "shoulder": {
+          "$ref": "#/$defs/positive"
+        },
+        "pitch": {
+          "$ref": "#/$defs/positive"
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "body_width",
+        "body_length",
+        "lead_span",
+        "pin_pitch"
+      ],
+      "properties": {
+        "body_width": {
+          "$ref": "#/$defs/measurement"
+        },
+        "body_length": {
+          "$ref": "#/$defs/measurement"
+        },
+        "lead_span": {
+          "$ref": "#/$defs/measurement"
+        },
+        "pin_pitch": {
+          "$ref": "#/$defs/measurement"
+        }
+      }
+    },
+    "pin_positions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 6,
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "enum": [
+              -1,
+              1
+            ]
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "items": false,
+        "minItems": 2,
+        "maxItems": 2
+      }
+    }
+  },
+  "$defs": {
+    "positive": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?=.*\\S)[^\\r\\n\\t]+$"
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inches",
+        "millimeters"
+      ],
+      "properties": {
+        "inches": {
+          "$ref": "#/$defs/text"
+        },
+        "millimeters": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    }
+  }
+}

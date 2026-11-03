@@ -1,0 +1,93 @@
+{
+  "$schema": "../../../components/input/schema.json",
+  "name": "USBLC6-2SC6",
+  "package": {
+    "family": "SOT-23",
+    "pin_count": 6
+  },
+  "orientation": "landscape",
+  "content_scale": 0.6,
+  "comments": [
+    "USBLC6-2SC6: two-line ESD protection; SOT23-6L, top view.",
+    "I/O1 = pins 1 and 6; I/O2 = pins 3 and 4. Each pair is one signal path.",
+    "D+ and D- assignments depend on board wiring; this device is not a USB transceiver."
+  ],
+  "categories": {
+    "power": {
+      "name": "Power"
+    },
+    "usb": {
+      "name": "Protected data lines",
+      "color": "#FFCC80"
+    }
+  },
+  "pins": [
+    {
+      "number": 1,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "usb",
+          "name": "I/O1"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "GND",
+          "color": "#202020"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "usb",
+          "name": "I/O2"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "usb",
+          "name": "I/O2"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "VBUS"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "type": "io",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "usb",
+          "name": "I/O1"
+        }
+      ]
+    }
+  ]
+}

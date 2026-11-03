@@ -1,0 +1,55 @@
+{
+  "pin_count": 6,
+  "geometry_mm": {
+    "width": 1.6,
+    "length": 2.9,
+    "span": 2.8,
+    "shoulder": 0.375,
+    "pitch": 0.95
+  },
+  "pin_positions": [
+    [
+      -1,
+      -0.95
+    ],
+    [
+      -1,
+      0
+    ],
+    [
+      -1,
+      0.95
+    ],
+    [
+      1,
+      0.95
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      -0.95
+    ]
+  ],
+  "reference": {
+    "body_width": {
+      "inches": "0.0571-0.0689",
+      "millimeters": "1.45-1.75"
+    },
+    "body_length": {
+      "inches": "0.1083-0.1201",
+      "millimeters": "2.75-3.05"
+    },
+    "lead_span": {
+      "inches": "0.1024-0.1181",
+      "millimeters": "2.60-3.00"
+    },
+    "pin_pitch": {
+      "inches": "0.0374",
+      "millimeters": "0.95"
+    }
+  },
+  "source": "https://www.ti.com/lit/pdf/mpds026q#page=1"
+}

@@ -36,6 +36,9 @@ Browse the [IC catalogue](collection/), the
 - **JSON Schema / jsonschema** for validating IC definitions and package data.
 - **SVG** for scalable horizontal and vertical diagrams.
 
+Package families include DIP and [SOT-23](components/renderer/packages/sot23/README.md).
+SOT-23 supports 3-, 5-, and 6-pin variants.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for adding ICs to the

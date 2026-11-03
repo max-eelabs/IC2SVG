@@ -1,0 +1,43 @@
+{
+  "pin_count": 3,
+  "geometry_mm": {
+    "width": 1.3,
+    "length": 2.9,
+    "span": 2.3,
+    "shoulder": 0.43,
+    "pitch": 1.9
+  },
+  "pin_positions": [
+    [
+      -1,
+      -0.95
+    ],
+    [
+      -1,
+      0.95
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "reference": {
+    "body_width": {
+      "inches": "0.0472-0.0551",
+      "millimeters": "1.20-1.40"
+    },
+    "body_length": {
+      "inches": "0.1102-0.1181",
+      "millimeters": "2.80-3.00"
+    },
+    "lead_span": {
+      "inches": "0.0827-0.0984",
+      "millimeters": "2.10-2.50"
+    },
+    "pin_pitch": {
+      "inches": "0.0748",
+      "millimeters": "1.90"
+    }
+  },
+  "source": "https://assets.nexperia.com/documents/outline-drawing/SOT23.pdf#page=2"
+}

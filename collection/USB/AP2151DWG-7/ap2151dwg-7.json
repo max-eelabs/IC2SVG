@@ -1,0 +1,85 @@
+{
+  "$schema": "../../../components/input/schema.json",
+  "name": "AP2151DWG-7",
+  "package": {
+    "family": "SOT-23",
+    "pin_count": 5
+  },
+  "orientation": "landscape",
+  "content_scale": 0.6,
+  "comments": [
+    "AP2151DWG-7: USB power switch with output discharge; SOT25, top view.",
+    "EN is active high. FLG is an active-low, open-drain fault output; use a pull-up.",
+    "Overbar = active low. OUT is switched power, not a USB data signal."
+  ],
+  "categories": {
+    "power": {
+      "name": "Power"
+    },
+    "control": {
+      "name": "Enable"
+    },
+    "fault": {
+      "name": "Fault status",
+      "color": "#CE93D8"
+    }
+  },
+  "pins": [
+    {
+      "number": 1,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "OUT"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "GND",
+          "color": "#202020"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "type": "output",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "fault",
+          "name": "~FLG"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "type": "input",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "control",
+          "name": "EN"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "type": "power",
+      "definitions": [
+        {
+          "column": 1,
+          "category": "power",
+          "name": "IN"
+        }
+      ]
+    }
+  ]
+}
