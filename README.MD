@@ -25,8 +25,9 @@ make accurate pinout diagrams easy to create, maintain, and share.
 Licensed under [Apache 2.0](LICENSE). [NOTICE](NOTICE) also covers all generated
 SVG images in the repository.
 
-Browse the [IC catalogue](collection/) or the
-[ATtiny85 pinout](collection/MCU/ATTiny85/README.md).
+Browse the [IC catalogue](collection/), the
+[ATtiny85 pinout](collection/MCU/ATTiny85/README.md), or the
+[PIC16F1454 pinout](collection/MCU/PIC16F1454/README.md).
 
 ## Technology
 
