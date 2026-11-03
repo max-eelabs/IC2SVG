@@ -1,0 +1,103 @@
+{
+  "$schema": "../../../components/input/schema.json",
+  "name": "PIC16F1454",
+  "package": {"family": "DIP", "pin_count": 14},
+  "orientation": "landscape",
+  "content_scale": 0.25,
+  "comments": [
+    "PIC16F1454 PDIP-14; native functions share pins. Overbar = active low.",
+    "* = alternate APFCON location; unstarred paired locations are defaults.",
+    "RA0/RA1/RA3 are input-only GPIO; RA0/RA1 also carry bidirectional USB.",
+    "RA3 GPIO requires MCLRE=0 and LVP=0. ICSP on RA0/RA1 is legacy LVP only.",
+    "VUSB3V3 is the USB regulator pin, not GPIO. No ADC, DAC, comparators or CWG."
+  ],
+  "categories": {
+    "power": {"name": "Power"},
+    "io": {"name": "GPIO", "color": "#FFF59D"},
+    "interrupt": {"name": "Interrupt", "color": "#CE93D8"},
+    "timer": {"name": "Timer / PWM", "color": "#EF9A9A"},
+    "spi": {"name": "MSSP SPI", "color": "#80CBC4"},
+    "i2c": {"name": "MSSP I2C", "color": "#26C6DA"},
+    "uart": {"name": "EUSART", "color": "#90CAF9"},
+    "usb": {"name": "USB", "color": "#FFCC80"},
+    "clock": {"name": "Clock / Oscillator", "color": "#B0BEC5"},
+    "control": {"name": "Reset / Programming", "color": "#FDD835"}
+  },
+  "pins": [
+    {"number": 1, "type": "power", "definitions": [
+      {"column": 1, "category": "power", "name": "VDD"}
+    ]},
+    {"number": 2, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RA5"},
+      {"column": 2, "category": "interrupt", "name": "IOC"},
+      {"column": 3, "category": "timer", "name": "T1CKI/PWM2*"},
+      {"column": 6, "category": "clock", "name": "OSC1/CLKIN"},
+      {"column": 7, "category": "clock", "name": "SOSCI"}
+    ]},
+    {"number": 3, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RA4"},
+      {"column": 2, "category": "interrupt", "name": "IOC"},
+      {"column": 3, "category": "timer", "name": "T1G"},
+      {"column": 4, "category": "spi", "name": "SDO*"},
+      {"column": 6, "category": "clock", "name": "OSC2/CLKOUT"},
+      {"column": 7, "category": "clock", "name": "SOSCO/CLKR"}
+    ]},
+    {"number": 4, "type": "input", "definitions": [
+      {"column": 1, "category": "io", "name": "RA3"},
+      {"column": 2, "category": "interrupt", "name": "IOC"},
+      {"column": 3, "category": "timer", "name": "T1G*"},
+      {"column": 4, "category": "spi", "name": "~SS*"},
+      {"column": 8, "category": "control", "name": "~MCLR/VPP"}
+    ]},
+    {"number": 5, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RC5"},
+      {"column": 3, "category": "timer", "name": "T0CKI/PWM1"},
+      {"column": 5, "category": "uart", "name": "RX/DT"}
+    ]},
+    {"number": 6, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RC4"},
+      {"column": 5, "category": "uart", "name": "TX/CK"}
+    ]},
+    {"number": 7, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RC3"},
+      {"column": 3, "category": "timer", "name": "PWM2"},
+      {"column": 4, "category": "spi", "name": "~SS"},
+      {"column": 7, "category": "clock", "name": "CLKR*"}
+    ]},
+    {"number": 8, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RC2"},
+      {"column": 4, "category": "spi", "name": "SDO"}
+    ]},
+    {"number": 9, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RC1"},
+      {"column": 2, "category": "interrupt", "name": "INT"},
+      {"column": 4, "category": "spi", "name": "SDI"},
+      {"column": 5, "category": "i2c", "name": "SDA"},
+      {"column": 8, "category": "control", "name": "ICSPCLK"}
+    ]},
+    {"number": 10, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RC0"},
+      {"column": 4, "category": "spi", "name": "SCK"},
+      {"column": 5, "category": "i2c", "name": "SCL"},
+      {"column": 8, "category": "control", "name": "ICSPDAT"}
+    ]},
+    {"number": 11, "type": "power", "definitions": [
+      {"column": 1, "category": "power", "name": "VUSB3V3"}
+    ]},
+    {"number": 12, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RA1"},
+      {"column": 2, "category": "interrupt", "name": "IOC"},
+      {"column": 3, "category": "usb", "name": "D-"},
+      {"column": 8, "category": "control", "name": "ICSPCLK (LVP)"}
+    ]},
+    {"number": 13, "type": "io", "definitions": [
+      {"column": 1, "category": "io", "name": "RA0"},
+      {"column": 2, "category": "interrupt", "name": "IOC"},
+      {"column": 3, "category": "usb", "name": "D+"},
+      {"column": 8, "category": "control", "name": "ICSPDAT (LVP)"}
+    ]},
+    {"number": 14, "type": "power", "definitions": [
+      {"column": 1, "category": "power", "name": "VSS", "color": "#202020"}
+    ]}
+  ]
+}
