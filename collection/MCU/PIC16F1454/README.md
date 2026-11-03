@@ -47,7 +47,12 @@ The drawing uses the repository's illustrative DIP-14 geometry.
   TX/CK and RX/DT are asynchronous/synchronous mode alternatives; MSSP SPI and
   I2C also share pins. IOC denotes interrupt-on-change on PORTA.
 
-Function columns retain empty slots. Landscape uses 25% content scale and
+For compact labels, `SI`/`SO` mean `SOSCI`/`SOSCO`, `OSC1/IN` means
+`OSC1/CLKIN`, and `OSC2/OUT` means `OSC2/CLKOUT`. The legacy programming
+labels `CLK(LVP)` and `DAT(LVP)` mean `ICSPCLK (LVP)` and `ICSPDAT (LVP)`.
+An abbreviation key also appears in the diagram comments.
+
+Function columns retain empty slots. Landscape uses 33.95% content scale and
 portrait uses 14%; landscape is easier to read at default size, and SVG lettering
 remains zoomable. The notes in the JSON
 `comments` array appear on both diagrams.

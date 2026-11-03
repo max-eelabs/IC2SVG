@@ -22,7 +22,10 @@ from collections.abc import Sequence
 from PIL import ImageFont
 
 from ..core import Rectangle, SvgDocument
-from ..core.typography import HEADING_CONTENT_GAP, HEADING_FONT_SIZE
+from ..core.typography import (
+    HEADING_CONTENT_GAP, HEADING_FONT_SIZE, HEADING_POSITION_Y,
+    OVERLAY_FONT_SIZE, OVERLAY_ROW_HEIGHT,
+)
 
 
 def _wrap_line(text: str, width: float, font: ImageFont.FreeTypeFont) -> list[str]:
@@ -71,7 +74,7 @@ class BottomLeftCommentsRenderer(CommentsRenderer):
         if any(not isinstance(text, str) or not text.strip() for text in comments):
             raise ValueError("Each comment must be a nonempty string.")
 
-        font = ImageFont.load_default(size=16)
+        font = ImageFont.load_default(size=OVERLAY_FONT_SIZE)
         width = min(1120, document.size[0] - 2 * margin)
         lines = [
             line
@@ -79,10 +82,11 @@ class BottomLeftCommentsRenderer(CommentsRenderer):
             for paragraph in comment.splitlines()
             for line in _wrap_line(paragraph, width, font)
         ]
-        row_height = 22
+        row_height = OVERLAY_ROW_HEIGHT
         heading_font = ImageFont.load_default(size=HEADING_FONT_SIZE)
         heading_bounds = document.text_bounds(
-            (0, 10), "Comments", font=heading_font, anchor="lm", bold=True,
+            (0, HEADING_POSITION_Y), "Comments",
+            font=heading_font, anchor="lm", bold=True,
         )
         first_index = next(index for index, line in enumerate(lines) if line)
         first_line_bounds = document.text_bounds(
@@ -99,7 +103,7 @@ class BottomLeftCommentsRenderer(CommentsRenderer):
 
         with document.sheet_layer("comments"):
             document.text(
-                (margin, top + 10), "Comments",
+                (margin, top + HEADING_POSITION_Y), "Comments",
                 font=heading_font,
                 fill="#333333", anchor="lm", bold=True,
             )

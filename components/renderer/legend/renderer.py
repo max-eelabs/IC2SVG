@@ -23,7 +23,10 @@ from dataclasses import dataclass
 from PIL import ImageFont
 
 from ..core import Rectangle, SvgDocument
-from ..core.typography import HEADING_CONTENT_GAP, HEADING_FONT_SIZE
+from ..core.typography import (
+    HEADING_CONTENT_GAP, HEADING_FONT_SIZE, HEADING_POSITION_Y,
+    LEGEND_SCALE, OVERLAY_FONT_SIZE,
+)
 from ..definition import DefinitionRenderer, PinLabel, RoundedDefinitionRenderer
 
 
@@ -60,8 +63,8 @@ class TopRightLegendRenderer(LegendRenderer):
     """Draw a borderless top-right block with equal swatches and descriptions.
 
     Swatches use the injected definition renderer, including active-low overbars.
-    The block has a fixed 32-unit sheet margin and its own 35% presentation scale.
-    Columns fill downward with at most six entries, then continue to the right.
+    The block has a fixed 32-unit sheet margin and its own 50% presentation scale.
+    Columns fill downward with at most four entries, then continue to the right.
     """
 
     def __init__(self, definition_renderer: DefinitionRenderer | None = None) -> None:
@@ -74,13 +77,13 @@ class TopRightLegendRenderer(LegendRenderer):
     def render(
         self, document: SvgDocument, entries: Sequence[LegendEntry]
     ) -> Rectangle:
-        """Draw up to six rows per column without a surrounding box or border.
+        """Draw up to four rows per column without a surrounding box or border.
 
         Raises:
             ValueError: The complete legend cannot fit on the sheet.
         """
         margin = 32.0
-        scale = 0.35
+        scale = LEGEND_SCALE
         if not entries:
             return Rectangle(document.size[0] - margin, margin,
                              document.size[0] - margin, margin)
@@ -88,17 +91,18 @@ class TopRightLegendRenderer(LegendRenderer):
         sizes = [self._definitions.measure(entry.swatch) for entry in entries]
         swatch_width = max(size.width for size in sizes)
         swatch_height = max(size.height for size in sizes)
-        description_font = ImageFont.load_default(size=40)
+        description_font = ImageFont.load_default(size=OVERLAY_FONT_SIZE / scale)
         heading_font = ImageFont.load_default(size=HEADING_FONT_SIZE / scale)
         description_width = max(
             description_font.getlength(entry.description) for entry in entries
         )
         row_step = swatch_height + 16
         heading_bounds = document.text_bounds(
-            (0, 24), "Legend", font=heading_font, anchor="lm", bold=True,
+            (0, HEADING_POSITION_Y / scale), "Legend",
+            font=heading_font, anchor="lm", bold=True,
         )
         heading_height = heading_bounds[3] + HEADING_CONTENT_GAP / scale
-        max_rows = 6
+        max_rows = 4
         column_count = (len(entries) + max_rows - 1) // max_rows
         column_width = swatch_width + 24 + description_width
         column_step = column_width + 64
@@ -112,7 +116,8 @@ class TopRightLegendRenderer(LegendRenderer):
 
         with document.sheet_layer("legend", position=(left, margin), scale=scale):
             document.text(
-                (0, 24), "Legend", font=heading_font, fill="#333333", anchor="lm",
+                (0, HEADING_POSITION_Y / scale), "Legend",
+                font=heading_font, fill="#333333", anchor="lm",
                 bold=True,
             )
             for index, entry in enumerate(entries):

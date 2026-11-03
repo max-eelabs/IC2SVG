@@ -19,7 +19,10 @@
 from PIL import ImageFont
 
 from .core import IcRenderer, Rectangle, SvgDocument
-from .core.typography import HEADING_CONTENT_GAP, HEADING_FONT_SIZE
+from .core.typography import (
+    HEADING_CONTENT_GAP, HEADING_FONT_SIZE, HEADING_POSITION_Y,
+    OVERLAY_FONT_SIZE, OVERLAY_ROW_HEIGHT,
+)
 
 
 class TopLeftPackageRenderer:
@@ -28,8 +31,8 @@ class TopLeftPackageRenderer:
     def render(self, document: SvgDocument, package: IcRenderer) -> Rectangle:
         """Draw a top-left block and return its bounds in logical sheet units.
 
-        Measurements come from the selected package's fixed reference rows, with inches
-        first and millimeters in parentheses. Source rounding and ranges are
+        Measurements come from the selected package's fixed reference rows,
+        with inches first and millimeters in parentheses. Source rounding and ranges are
         retained independently of illustrative geometry changes.
         The heading matches Legend's size, vertical position, and visible gap.
 
@@ -45,8 +48,8 @@ class TopLeftPackageRenderer:
             for value in measurements
         )
         heading_font = ImageFont.load_default(size=HEADING_FONT_SIZE)
-        font = ImageFont.load_default(size=14)
-        heading_y = 24 * 0.35
+        font = ImageFont.load_default(size=OVERLAY_FONT_SIZE)
+        heading_y = HEADING_POSITION_Y
         heading_bounds = document.text_bounds(
             (0, heading_y), "Package", font=heading_font, anchor="lm", bold=True,
         )
@@ -54,7 +57,7 @@ class TopLeftPackageRenderer:
             (0, 0), lines[0], font=font, anchor="lm",
         )
         first_y = heading_bounds[3] + HEADING_CONTENT_GAP - first_bounds[1]
-        row_step = 22.0
+        row_step = OVERLAY_ROW_HEIGHT
         line_bounds = [
             document.text_bounds(
                 (0, first_y + index * row_step), line, font=font, anchor="lm",

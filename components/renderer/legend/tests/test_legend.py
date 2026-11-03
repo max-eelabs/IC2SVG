@@ -28,10 +28,10 @@ _SVG = "{http://www.w3.org/2000/svg}"
 
 
 class LegendTests(unittest.TestCase):
-    """Keep every entry visible and cap each legend column at six items."""
+    """Keep every entry visible and cap each legend column at four items."""
 
     def test_column_boundaries_and_no_outer_border(self) -> None:
-        for count in (1, 6, 7, 11, 12, 13):
+        for count in (1, 4, 5, 8, 9, 12, 13):
             with self.subTest(count=count):
                 document = SvgDocument((1920, 1080), content_scale=0.35)
                 entries = [
@@ -50,10 +50,10 @@ class LegendTests(unittest.TestCase):
                 columns: dict[str, list[ET.Element]] = {}
                 for box in boxes:
                     columns.setdefault(box.get("x"), []).append(box)
-                self.assertEqual(len(columns), (count + 5) // 6)
-                self.assertTrue(all(len(column) <= 6 for column in columns.values()))
-                if count > 6:
-                    self.assertEqual(boxes[0].get("y"), boxes[6].get("y"))
+                self.assertEqual(len(columns), (count + 3) // 4)
+                self.assertTrue(all(len(column) <= 4 for column in columns.values()))
+                if count > 4:
+                    self.assertEqual(boxes[0].get("y"), boxes[4].get("y"))
 
     def test_scale_independence_and_definition_style(self) -> None:
         entries = [LegendEntry(PinLabel("~RESET", "#FDD835"), "Reset")]

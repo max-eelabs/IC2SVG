@@ -21,9 +21,11 @@ from unittest.mock import patch
 from xml.etree import ElementTree as ET
 
 from components.renderer import (
-    DipRenderer, LegendEntry, Orientation, PinLabel, SvgDocument,
+    BottomLeftCommentsRenderer, DipRenderer, LegendEntry, Orientation, PinLabel,
+    SvgDocument,
     TopLeftPackageRenderer, TopRightLegendRenderer,
 )
+from components.renderer.core.typography import LEGEND_SCALE
 
 
 _SVG = "{http://www.w3.org/2000/svg}"
@@ -58,6 +60,24 @@ class PackageInfoTests(unittest.TestCase):
             DipRenderer(24).nominal_dimensions_mm, (13.84, 31.75, 16.51, 2.54)
         )
 
+    def test_overlay_text_remains_readable_at_sheet_size(self) -> None:
+        styles = (
+            (TopLeftPackageRenderer(), (DipRenderer(8),), 1.0),
+            (BottomLeftCommentsRenderer(), (("A short comment",),), 1.0),
+            (TopRightLegendRenderer(),
+             ((LegendEntry(PinLabel("~RESET"), "Reset control"),),), LEGEND_SCALE),
+        )
+        for renderer, arguments, sheet_scale in styles:
+            with self.subTest(renderer=type(renderer).__name__):
+                document = SvgDocument((1920, 1080), content_scale=0.25)
+                with patch.object(document, "text", wraps=document.text) as draw:
+                    renderer.render(document, *arguments)
+                heading, *body = draw.call_args_list
+                self.assertGreaterEqual(heading.kwargs["font"].size * sheet_scale, 28)
+                self.assertTrue(body)
+                for call in body:
+                    self.assertGreaterEqual(call.kwargs["font"].size * sheet_scale, 20)
+
     def test_heading_and_visible_gap_match_legend(self) -> None:
         document = SvgDocument((1920, 1080))
         with patch.object(document, "text", wraps=document.text) as draw:
@@ -78,9 +98,11 @@ class PackageInfoTests(unittest.TestCase):
             legend_heading = draw.call_args_list[0]
             self.assertAlmostEqual(
                 heading.kwargs["font"].size,
-                legend_heading.kwargs["font"].size * 0.35,
+                legend_heading.kwargs["font"].size * LEGEND_SCALE,
             )
-            self.assertAlmostEqual(heading.args[0][1], legend_heading.args[0][1] * 0.35)
+            self.assertAlmostEqual(
+                heading.args[0][1], legend_heading.args[0][1] * LEGEND_SCALE
+            )
             self.assertEqual(heading.kwargs["bold"], legend_heading.kwargs["bold"])
 
 
