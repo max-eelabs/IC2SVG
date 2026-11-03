@@ -328,7 +328,11 @@ class SvgDocument:
         )
 
     def to_string(self, *, scale: float = 1.0) -> str:
-        """Serialize SVG; positive scale sets viewport size without changing viewBox."""
+        """Return SVG text with an explicit UTF-8 XML declaration.
+
+        Positive scale changes viewport size without changing the viewBox,
+        geometry, or stored drawing state. Saving uses UTF-8 and LF newlines.
+        """
         if not isfinite(scale) or scale <= 0:
             raise ValueError("SVG scale must be finite and greater than zero.")
 

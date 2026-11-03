@@ -4,6 +4,7 @@
   "package": {"family": "DIP", "pin_count": 14},
   "orientation": "landscape",
   "content_scale": 0.3395,
+  "legend_columns": null,
   "comments": [
     "PIC16F1454 PDIP-14; native functions share pins. Overbar = active low.",
     "* = alternate APFCON location; unstarred paired locations are defaults.",

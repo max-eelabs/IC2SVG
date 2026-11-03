@@ -37,7 +37,8 @@ class CliTests(unittest.TestCase):
         with TemporaryDirectory(prefix="ic render ") as directory:
             for orientation, size, options in (
                 ("landscape", (1920, 1080), []),
-                ("portrait", (1080, 1920), ["--content-scale", "0.2"]),
+                ("portrait", (1080, 1920),
+                 ["--content-scale", "0.2", "--legend-columns", "2"]),
             ):
                 with self.subTest(orientation=orientation):
                     output = Path(directory) / f"pinout-{orientation}.svg"
@@ -62,7 +63,24 @@ class CliTests(unittest.TestCase):
                     if orientation == "portrait":
                         drawing = root.find(f"{_SVG}g[@id='drawing']")
                         self.assertIn("scale(0.2)", drawing.get("transform"))
+                        legend = root.find(f"{_SVG}g[@id='legend']")
+                        columns = {box.get("x")
+                                   for box in legend.findall(f"{_SVG}rect")}
+                        self.assertEqual(len(columns), 2)
         self.assertEqual(_SOURCE.read_bytes(), original)
+
+    def test_invalid_legend_columns_do_not_write_svg(self) -> None:
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / "invalid.svg"
+            result = subprocess.run(
+                [sys.executable, "-m", "components.input", str(_SOURCE), str(output),
+                 "--legend-columns", "0"],
+                cwd=_ROOT, capture_output=True, text=True, timeout=30, check=False,
+            )
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("Legend columns", result.stderr)
+            self.assertNotIn("Traceback", result.stderr)
+            self.assertFalse(output.exists())
 
     def test_invalid_scale_exits_without_writing_svg(self) -> None:
         with TemporaryDirectory() as directory:

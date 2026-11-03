@@ -37,6 +37,10 @@ def main() -> None:
         "--content-scale", type=float,
         help="Override the JSON drawing scale (greater than zero, at most one)",
     )
+    parser.add_argument(
+        "--legend-columns", type=int,
+        help="Override the JSON legend column count (1 through 16)",
+    )
     args = parser.parse_args()
     try:
         pinout = load_input(args.input)
@@ -44,6 +48,8 @@ def main() -> None:
             pinout = replace(pinout, orientation=Orientation[args.orientation.upper()])
         if args.content_scale is not None:
             pinout = replace(pinout, content_scale=args.content_scale)
+        if args.legend_columns is not None:
+            pinout = replace(pinout, legend_columns=args.legend_columns)
         pinout.render().save(args.output)
     except (ValueError, OSError) as error:
         parser.exit(2, f"error: {error}\n")

@@ -25,6 +25,7 @@ from PIL import ImageFont
 from ..core import Rectangle, SvgDocument
 from ..core.typography import (
     HEADING_CONTENT_GAP, HEADING_FONT_SIZE, HEADING_POSITION_Y,
+    LEGEND_DEFINITION_SCALE, LEGEND_DESCRIPTION_MAX_CHARS,
     LEGEND_SCALE, OVERLAY_FONT_SIZE,
 )
 from ..definition import DefinitionRenderer, PinLabel, RoundedDefinitionRenderer
@@ -59,25 +60,70 @@ class LegendRenderer(ABC):
         """Draw the supplied entries and return the occupied bounds on the sheet."""
 
 
+def _truncate_description(
+    text: str, maximum_width: float, font: ImageFont.FreeTypeFont, maximum_chars: int
+) -> str:
+    """Fit one line using an ellipsis when the character or width limit is reached."""
+    text = " ".join(text.split())
+    if maximum_width <= 0:
+        raise ValueError("Category legend cannot fit the selected sheet.")
+    if len(text) <= maximum_chars and font.getlength(text) <= maximum_width + 1e-6:
+        return text
+
+    prefix = text[:maximum_chars - 3].rstrip()
+    while prefix and font.getlength(prefix + "...") > maximum_width + 1e-6:
+        prefix = prefix[:-1].rstrip()
+    if font.getlength(prefix + "...") > maximum_width + 1e-6:
+        raise ValueError("Category legend cannot fit the selected sheet.")
+    return prefix + "..."
+
+
 class TopRightLegendRenderer(LegendRenderer):
-    """Draw a borderless top-right block with equal swatches and descriptions.
+    """Draw a top-right block with equal swatches and single-line descriptions.
 
     Swatches use the injected definition renderer, including active-low overbars.
     The block has a fixed 32-unit sheet margin and its own 50% presentation scale.
-    Columns fill downward with at most four entries, then continue to the right.
+    Automatic layout fills columns downward with at most four entries.
+    An explicit column count distributes entries evenly and overrides that limit.
+    Long descriptions are truncated; a reserved block can keep overlays separate.
     """
 
-    def __init__(self, definition_renderer: DefinitionRenderer | None = None) -> None:
-        """Reuse a definition style; default to the existing rounded colored boxes."""
+    def __init__(
+        self, definition_renderer: DefinitionRenderer | None = None, *,
+        reserved_bounds: Rectangle | None = None, columns: int | None = None,
+        description_max_chars: int = LEGEND_DESCRIPTION_MAX_CHARS,
+    ) -> None:
+        """Reuse a definition style and optionally avoid an occupied sheet block.
+
+        Args:
+            definition_renderer: Swatch style; defaults to rounded colored boxes
+                at 90% of the standard definition size.
+            columns: Requested columns from 1 through 16, capped by entry count.
+                None uses automatic columns with at most four entries each.
+            description_max_chars: Maximum displayed description length, including
+                the ellipsis. At least four characters; width may trim it further.
+                Original entry descriptions are not changed.
+            reserved_bounds: Sheet bounds to avoid by moving the legend below
+                them. The caller retains ownership; the rectangle is immutable.
+        """
+        if columns is not None and (type(columns) is not int or not 1 <= columns <= 16):
+            raise ValueError("Legend columns must be an integer from 1 to 16 or None.")
+        if type(description_max_chars) is not int or description_max_chars < 4:
+            raise ValueError(
+                "Legend description limit must be an integer of at least 4."
+            )
+        self._description_max_chars = description_max_chars
+        self._columns = columns
+        self._reserved_bounds = reserved_bounds
         self._definitions = (
-            RoundedDefinitionRenderer()
+            RoundedDefinitionRenderer(scale=LEGEND_DEFINITION_SCALE)
             if definition_renderer is None else definition_renderer
         )
 
     def render(
         self, document: SvgDocument, entries: Sequence[LegendEntry]
     ) -> Rectangle:
-        """Draw up to four rows per column without a surrounding box or border.
+        """Draw the requested columns without a surrounding box or border.
 
         Raises:
             ValueError: The complete legend cannot fit on the sheet.
@@ -93,37 +139,84 @@ class TopRightLegendRenderer(LegendRenderer):
         swatch_height = max(size.height for size in sizes)
         description_font = ImageFont.load_default(size=OVERLAY_FONT_SIZE / scale)
         heading_font = ImageFont.load_default(size=HEADING_FONT_SIZE / scale)
-        description_width = max(
-            description_font.getlength(entry.description) for entry in entries
-        )
-        row_step = swatch_height + 16
         heading_bounds = document.text_bounds(
             (0, HEADING_POSITION_Y / scale), "Legend",
             font=heading_font, anchor="lm", bold=True,
         )
         heading_height = heading_bounds[3] + HEADING_CONTENT_GAP / scale
-        max_rows = 4
-        column_count = (len(entries) + max_rows - 1) // max_rows
-        column_width = swatch_width + 24 + description_width
-        column_step = column_width + 64
-        width = max(column_step * column_count - 64,
+        if self._columns is None:
+            counts = [min(4, len(entries) - start)
+                      for start in range(0, len(entries), 4)]
+        else:
+            count = min(self._columns, len(entries))
+            rows, extra = divmod(len(entries), count)
+            counts = [rows + (index < extra) for index in range(count)]
+        column_count = len(counts)
+        groups = []
+        offset = 0
+        for count in counts:
+            groups.append(entries[offset:offset + count])
+            offset += count
+        positions = [(column, row) for column, count in enumerate(counts)
+                     for row in range(count)]
+        available_width = (document.size[0] - 2 * margin) / scale
+        column_limit = (available_width - 64 * (column_count - 1)) / column_count
+        shortened = [
+            _truncate_description(entry.description, float("inf"), description_font,
+                                  self._description_max_chars)
+            for entry in entries
+        ]
+        column_widths = [
+            min(column_limit, swatch_width + 24 + max(
+                description_font.getlength(_truncate_description(
+                    entry.description, float("inf"), description_font,
+                    self._description_max_chars
+                ))
+                for entry in group
+            ))
+            for group in groups
+        ]
+        descriptions = [
+            _truncate_description(
+                shortened[index],
+                column_widths[positions[index][0]] - swatch_width - 24,
+                description_font, self._description_max_chars,
+            )
+            for index, entry in enumerate(entries)
+        ]
+        line_height = description_font.size * 1.3
+        cell_height = max(swatch_height, line_height)
+        row_step = cell_height + 16
+        column_starts = [0.0]
+        for column_width in column_widths[:-1]:
+            column_starts.append(column_starts[-1] + column_width + 64)
+        width = max(sum(column_widths) + 64 * (column_count - 1),
                     heading_font.getlength("Legend"))
-        height = heading_height + row_step * min(len(entries), max_rows) - 16
+        height = heading_height + row_step * max(counts) - 16
         left = document.size[0] - margin - width * scale
-        bottom = margin + height * scale
-        if left < margin or bottom > document.size[1] - margin:
+        block_top = margin
+        reserved = self._reserved_bounds
+        if reserved is not None and (
+            left < reserved.right and document.size[0] - margin > reserved.left
+            and block_top < reserved.bottom
+            and block_top + height * scale > reserved.top
+        ):
+            block_top = reserved.bottom + margin
+        bottom = block_top + height * scale
+        if left < margin - 1e-6 or bottom > document.size[1] - margin:
             raise ValueError("Category legend cannot fit the selected sheet.")
 
-        with document.sheet_layer("legend", position=(left, margin), scale=scale):
+        with document.sheet_layer("legend", position=(left, block_top), scale=scale):
             document.text(
                 (0, HEADING_POSITION_Y / scale), "Legend",
                 font=heading_font, fill="#333333", anchor="lm",
                 bold=True,
             )
             for index, entry in enumerate(entries):
-                column, row = divmod(index, max_rows)
-                x = column * column_step
-                top = heading_height + row * row_step
+                column, row = positions[index]
+                x = column_starts[column]
+                cell_top = heading_height + row * row_step
+                top = cell_top + (cell_height - swatch_height) / 2
                 box = Rectangle(x, top, x + swatch_width, top + swatch_height)
                 if entry.variants:
                     colors = tuple(
@@ -135,7 +228,8 @@ class TopRightLegendRenderer(LegendRenderer):
                 else:
                     self._definitions.render(document, entry.sample, box)
                 document.text(
-                    (x + swatch_width + 24, top + swatch_height / 2), entry.description,
-                    font=description_font, fill="#4B4F55", anchor="lm",
+                    (x + swatch_width + 24, cell_top + cell_height / 2),
+                    descriptions[index], font=description_font,
+                    fill="#4B4F55", anchor="lm",
                 )
-        return Rectangle(left, margin, document.size[0] - margin, bottom)
+        return Rectangle(left, block_top, document.size[0] - margin, bottom)

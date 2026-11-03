@@ -47,6 +47,7 @@ class PinoutInput:
 
     Function columns count outward after the required pin-type badge. Definitions
     and pin types are immutable tuples ordered by physical pin number.
+    legend_columns is optional; None retains automatic legend layout.
     """
 
     name: str
@@ -58,6 +59,7 @@ class PinoutInput:
     legend: tuple[LegendEntry, ...] = ()
     comments: tuple[str, ...] = ()
     family: str = "DIP"
+    legend_columns: int | None = None
 
     def render(
         self, *, legend_renderer: LegendRenderer | None = None,
@@ -71,9 +73,12 @@ class PinoutInput:
             content_scale=self.content_scale,
             pin_types=dict(self.pin_types),
         )
-        TopLeftPackageRenderer().render(document, package)
+        package_bounds = TopLeftPackageRenderer().render(document, package)
         renderer = (
-            TopRightLegendRenderer() if legend_renderer is None else legend_renderer
+            TopRightLegendRenderer(
+                reserved_bounds=package_bounds, columns=self.legend_columns
+            )
+            if legend_renderer is None else legend_renderer
         )
         if self.legend:
             renderer.render(document, self.legend)
@@ -111,6 +116,9 @@ def parse_input(data: object) -> PinoutInput:
         raise ValueError("package.pin_count must be an integer.")
     family = data["package"]["family"]
     get_package(family).create_renderer(count)
+    legend_columns = data.get("legend_columns")
+    if legend_columns is not None and type(legend_columns) is not int:
+        raise ValueError("legend_columns must be an integer or null.")
     content_scale = data.get("content_scale", 0.6)
     if not isfinite(content_scale):
         raise ValueError("content_scale must be finite.")
@@ -180,6 +188,7 @@ def parse_input(data: object) -> PinoutInput:
         legend=tuple(legend),
         comments=tuple(data.get("comments", [])),
         family=family,
+        legend_columns=legend_columns,
     )
 
 

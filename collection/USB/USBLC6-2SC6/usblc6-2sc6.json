@@ -7,6 +7,7 @@
   },
   "orientation": "landscape",
   "content_scale": 0.6,
+  "legend_columns": null,
   "comments": [
     "USBLC6-2SC6: two-line ESD protection; SOT23-6L, top view.",
     "I/O1 = pins 1 and 6; I/O2 = pins 3 and 4. Each pair is one signal path.",

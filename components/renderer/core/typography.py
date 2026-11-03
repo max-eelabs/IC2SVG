@@ -36,3 +36,9 @@ HEADING_POSITION_Y = 12.0
 
 # Increase both legend samples and their outlines without changing pin labels.
 LEGEND_SCALE = 0.5
+
+# Legend samples are slightly smaller than the surrounding descriptions.
+LEGEND_DEFINITION_SCALE = 0.9
+
+# Legend descriptions stay on one line; longer text receives an ellipsis.
+LEGEND_DESCRIPTION_MAX_CHARS = 24

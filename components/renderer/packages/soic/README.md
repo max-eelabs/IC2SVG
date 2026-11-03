@@ -88,3 +88,10 @@ Run its tests:
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s components/renderer/packages/soic/tests -t .
 ```
+
+These generic package samples contain the housing and physical pin numbers.
+Complete collection pinouts add the Package, Legend, and Comments blocks through
+the JSON compositor. Its optional `legend_columns` field and `--legend-columns`
+CLI override control the legend independently of pin-function columns. See the
+[layout guide](../../../../CONTRIBUTING.md#layout-and-legend-settings) for defaults,
+single-line description limits, and sheet typography.

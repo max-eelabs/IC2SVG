@@ -52,10 +52,18 @@ For compact labels, `SI`/`SO` mean `SOSCI`/`SOSCO`, `OSC1/IN` means
 labels `CLK(LVP)` and `DAT(LVP)` mean `ICSPCLK (LVP)` and `ICSPDAT (LVP)`.
 An abbreviation key also appears in the diagram comments.
 
-Function columns retain empty slots. Landscape uses 33.95% content scale and
-portrait uses 14%; landscape is easier to read at default size, and SVG lettering
-remains zoomable. The notes in the JSON
-`comments` array appear on both diagrams.
+Function columns retain empty slots. The saved render settings are:
+
+| Orientation | Content scale | Legend |
+| --- | --- | --- |
+| Landscape | 33.95% | Automatic; 3 columns with at most 4 entries each |
+| Portrait | 14% | 2 columns, selected with `--legend-columns 2` |
+
+The JSON uses `"legend_columns": null` for automatic layout. The portrait command
+overrides it without changing the source. Headings and overlay text retain their
+sheet sizes when the chip scale changes. Legend descriptions stay on one line
+and use `...` when shortened; the full categories remain in JSON. The notes and
+abbreviation key in `comments` appear on both diagrams.
 
 Regenerate both SVGs from this directory, or double-click `render.cmd`:
 
@@ -65,4 +73,4 @@ Regenerate both SVGs from this directory, or double-click `render.cmd`:
 
 The command works from other directories, uses the repository's `.venv` Python
 when available, and otherwise uses `python` from PATH. Both SVGs come from the
-same JSON; the portrait scale override is stored in `render.cmd`.
+same JSON; the portrait scale and legend overrides are stored in `render.cmd`.

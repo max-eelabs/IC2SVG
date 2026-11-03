@@ -61,31 +61,39 @@ class DefinitionRenderer(ABC):
 
 
 class RoundedDefinitionRenderer(DefinitionRenderer):
-    """Draw enlarged colored boxes with bolder vector lettering."""
+    """Draw colored boxes and vector lettering with optional uniform scaling."""
+
+    # Preserve subclasses whose existing constructors do not call super().
+    _scale = 1.0
+
+    def __init__(self, *, scale: float = 1.0) -> None:
+        """Select a positive uniform scale for measurement, text, and decoration."""
+        if not isfinite(scale) or scale <= 0:
+            raise ValueError("Definition scale must be finite and positive.")
+        self._scale = scale
 
     def measure(self, label: PinLabel) -> DefinitionSize:
         """Reserve the uniformly enlarged visible dimensions, including borders."""
         font = ImageFont.load_default(size=28)
         signal = parse_signal_text(label.text)
-        return DefinitionSize(
-            (font.getlength(signal.text) + 33) * DEFINITION_SCALE,
-            49 * DEFINITION_SCALE,
-        )
+        scale = DEFINITION_SCALE * self._scale
+        return DefinitionSize((font.getlength(signal.text) + 33) * scale, 49 * scale)
 
     def render(
         self, document: SvgDocument, label: PinLabel, bounds: Rectangle
     ) -> None:
         """Inset the border's centerline so painted edges match allocated bounds."""
         signal = parse_signal_text(label.text)
-        font = ImageFont.load_default(size=LABEL_FONT_SIZE)
+        scale = DEFINITION_SCALE * self._scale
+        font = ImageFont.load_default(size=LABEL_FONT_SIZE * self._scale)
         center = ((bounds.left + bounds.right) / 2,
                   (bounds.top + bounds.bottom) / 2)
-        inset = DEFINITION_SCALE / 2
+        inset = scale / 2
         document.rounded_rectangle(
             (bounds.left + inset, bounds.top + inset,
              bounds.right - inset, bounds.bottom - inset),
-            radius=5 * DEFINITION_SCALE, fill=label.color,
-            outline="#4B4F55", width=DEFINITION_SCALE,
+            radius=5 * scale, fill=label.color,
+            outline="#4B4F55", width=scale,
         )
         document.text(
             center, signal.text, font=font,

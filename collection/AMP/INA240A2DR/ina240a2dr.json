@@ -7,6 +7,7 @@
   },
   "orientation": "landscape",
   "content_scale": 0.6,
+  "legend_columns": null,
   "comments": [
     "INA240A2DR: SOIC-8 current-sense amplifier, gain 50 V/V; top view.",
     "SOIC and TSSOP pin assignments differ. REF1 and REF2 are reference inputs.",

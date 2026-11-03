@@ -41,8 +41,18 @@ Related details are in Sections 10.3, 12, and 15.
 - Alternate functions share pads and cannot all operate simultaneously.
 
 Definitions use explicit columns, with blanks retained. Related signals share
-boxes where needed. Dense output uses 35% content scale in landscape and 20%
-in portrait; landscape is easier to read at default size. SVG remains zoomable.
+boxes where needed. The saved render settings are:
+
+| Orientation | Content scale | Legend |
+| --- | --- | --- |
+| Landscape | 35% | Automatic; 3 columns with at most 4 entries each |
+| Portrait | 20% | 1 column, selected with `--legend-columns 1` |
+
+The JSON uses `"legend_columns": null` for automatic layout. The portrait command
+requests one column so the ten entries form a compact list without wrapping.
+Descriptions stay on one line and use `...` when they exceed 24 characters or
+the available width. Full category names remain in JSON. Headings and overlay
+text retain their sheet sizes independently of the chip scale.
 
 Regenerate both orientations, including the explanatory notes, with:
 

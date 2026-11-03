@@ -26,6 +26,10 @@
     },
     "orientation": {"enum": ["landscape", "portrait"], "default": "landscape"},
     "content_scale": {"type": "number", "exclusiveMinimum": 0, "maximum": 1, "default": 0.6},
+    "legend_columns": {
+      "type": ["integer", "null"], "minimum": 1, "maximum": 16, "default": null,
+      "description": "Optional legend columns. Null uses automatic layout with at most four entries per column; an integer overrides that row limit."
+    },
     "comments": {
       "type": "array",
       "description": "Ordered comments rendered in the bottom-left sheet block.",
