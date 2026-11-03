@@ -337,8 +337,12 @@ class SvgDocument:
         root.set("width", _number(self.size[0] * scale))
         root.set("height", _number(self.size[1] * scale))
         ET.register_namespace("", "http://www.w3.org/2000/svg")
-        return ET.tostring(root, encoding="unicode", xml_declaration=True)
+        return ET.tostring(
+            root, encoding="utf-8", xml_declaration=True
+        ).decode("utf-8")
 
     def save(self, path: str | Path, *, scale: float = 1.0) -> None:
-        """Write a standalone SVG file with a uniformly scaled viewport."""
-        Path(path).write_text(self.to_string(scale=scale), encoding="utf-8")
+        """Write UTF-8 SVG with LF newlines and a uniformly scaled viewport."""
+        Path(path).write_text(
+            self.to_string(scale=scale), encoding="utf-8", newline="\n"
+        )
